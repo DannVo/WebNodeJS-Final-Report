@@ -1,0 +1,35 @@
+
+  <h1>Message Page</h1>
+
+  <div id="messages"></div>
+
+  <!-- <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    
+    const socket = io('http://localhost:8000');
+    let messages =[]
+    socket.on('get-messages', (messages) => {
+      getMessage(messages)
+    }
+    );
+    socket.on('new-messages', (messages) => {
+      getMessage(messages)
+    }
+    );
+    
+
+    function getMessage(messages){
+      console.log("Messages: ",messages)
+      const messagesDiv = document.querySelector('#messages');
+      messagesDiv.innerHTML = '';
+      for (let message of messages) {
+        console.log("Detail ", message)
+        
+        const messageEl = document.createElement('div');
+        messageEl.textContent = message.text;
+  
+        messagesDiv.appendChild(messageEl);
+      }
+    }
+  </script> -->
+

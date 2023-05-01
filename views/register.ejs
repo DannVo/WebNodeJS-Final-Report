@@ -1,0 +1,161 @@
+<section class="vh-100">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6 text-black">
+
+				<div class="px-5 ms-xl-4">
+					<img src="./assets/img/logo.png" alt="Flair Mail Logo" srcset="" width="100" height="100">
+					<span class="h1 fw-bold mb-0">Flair Mail</span>
+				</div>
+
+				<div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+					<form novalidate action="/test/verify" method="post" style="width: 23rem;">
+
+						<h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your Flair Account</h3>
+
+						<div style="display: flex; justify-content:space-between; margin-bottom:20px;">
+							<div class="form-outline me-2">
+								<input type="text" name="fname" id="fname" class="form-control form-control-lg"
+									placeholder="First name" value="<%=fname%>" />
+								<label class="form-label" for="fname">First name</label>
+							</div>
+
+							<div class="form-outline ms-1">
+								<input type="text" name="lname" id="form2Example18" class="form-control form-control-lg"
+									placeholder="Last name" value="<%=lname%>" />
+								<label class="form-label" for="form2Example18">Last name</label>
+							</div>
+
+						</div>
+						<div class="form-outline mb-3">
+							<div class="input-group">
+								<input type="text" style="font-size: 16px;" class="form-control" name="username"
+									placeholder="Username" aria-label="Recipient's username"
+									aria-describedby="basic-addon2" value="<%=username%>">
+								<span class="input-group-text" id="basic-addon2">@fmail.com</span>
+							</div>
+							<label class="form-label" for="username">Username</label>
+
+						</div>
+
+						<div class="form-outline mb-3">
+							<input style="font-size: 16px;" type="tel" name="phone" id="phone_num"
+								class="form-control form-control-lg" placeholder="+84 981234****" value="<%=phone%>" />
+							<label class="form-label" for="username">Phone number</label>
+						</div>
+
+
+						<div style="display: flex; justify-content:space-between; margin-bottom:6px;">
+							<div class="form-outline me-2">
+								<input style="font-size: 16px;" type="password" name="password" id="password"
+									class="form-control form-control-lg" placeholder="Password" value="<%=password%>" />
+								<label class="form-label" for="form2Example28">Password</label>
+							</div>
+
+							<div class="form-outline ms-1">
+								<input style="font-size: 16px;" type="password" name="confirm_pw" id="confirm_password"
+									class="form-control form-control-lg" placeholder="Confirm"
+									value="<%=confirm_pw%>" />
+								<label class="form-label" for="form2Example28">Confirm password</label>
+								<span id='message' class="d-flex p"></span>
+							</div>
+							<input style="font-size: 16px;" type="string" name="captcha" id="captcha"
+								class="form-control form-control-lg"   hidden/>
+						</div>
+						<div class="form-check mb-4">
+							<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+							<label class="form-check-label" for="flexCheckChecked">
+								Show password
+							</label>
+						</div>
+						<div id="recaptcha-container"></div>
+						<% if(error.length> 0){ %>
+							<div class="alert alert-<%=errorType%> alert-dismissible fade show" role="alert">
+								<strong><%=errorTitle%>! </strong>
+								<%=error%>
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close"></button>
+							</div>
+							<%}%>
+								<div class="pt-2 mb-4">
+									<button class="btn btn-info btn-lg btn-block px-4 py-1 text-white" type="submit">Next</button>
+								</div>
+								<p>Have an account? <a href="/account/login" class="link-info">Sign in</a></p>
+
+					</form>
+
+				</div>
+
+			</div>
+
+			<div class="col-sm-6 px-0 d-none d-sm-block">
+				<img src="./assets/img/test2.avif" alt="Login image" class="w-100 vh-105"
+					style="object-fit: cover; object-position: left;">
+			</div>
+		</div>
+	</div>
+</section>
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+<script>
+	const firebaseConfig = {
+		apiKey: "AIzaSyAdFYpvKzJVMP8Np6nVOGDOek5PALk9d9o",
+		authDomain: "flair-mail.firebaseapp.com",
+		databaseURL: "https://flair-mail-default-rtdb.firebaseio.com",
+		projectId: "flair-mail",
+		storageBucket: "flair-mail.appspot.com",
+		messagingSenderId: "384601436060",
+		appId: "1:384601436060:web:2c84f743520cbbc59f2259",
+		measurementId: "G-BDY76VKWY8"
+	  };
+	firebase.initializeApp(firebaseConfig)
+	render()
+	function render(){
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
+		localStorage.setItem('recaptcha',JSON.stringify(window.recaptchaVerifier))
+		document.getElementById('captcha').value = JSON.stringify(window.recaptchaVerifier)
+		console.log(document.getElementById('captcha').value)
+		recaptchaVerifier.render()
+	}
+	// function for send OTP
+	function phoneAuth() {
+		var number = document.getElementById('number').value;
+		firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
+			window.confirmationResult = confirmationResult;
+			coderesult = confirmationResult;
+			console.log('OTP Sent');
+		}).catch(function (error) {
+			// error in sending OTP
+			alert(error.message);
+		});
+	}
+	// function for OTP verify
+	function codeverify() {
+		var code = document.getElementById('verificationcode').value;
+		coderesult.confirm(code).then(function () {
+			console.log('OTP Verified');
+		}).catch(function () {
+			console.log('OTP Not correct');
+		})
+	}
+
+
+	$('#flexCheckChecked').click(e => {
+		if ($('#flexCheckChecked').is(':checked')) {
+			$('#password').get(0).type = 'text'
+			$('#confirm_password').get(0).type = 'text'
+		} else {
+			$('#password').get(0).type = 'password'
+			$('#confirm_password').get(0).type = 'password'
+		}
+	})
+
+	$('#password, #confirm_password').on('keyup', function () {
+		if ($('#password').val() == $('#confirm_password').val()) {
+			$('#confirm_password').css('border-color', 'green').css('borderWidth', '1.5px');
+		} else
+			$('#confirm_password').css('border-color', 'red');
+
+	});
+</script>

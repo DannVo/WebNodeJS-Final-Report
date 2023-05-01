@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Aerial by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
+	<style>
+		button {
+			background-color: transparent;
+			outline: 1px solid white;
+			border: none;
+			color: white;
+			padding: 5px 30px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 5px;
+
+		}
+
+		a {
+			text-decoration: none;
+			color: white !important;
+			font-size: 16px;
+		}
+
+		button:hover {
+			color: white;
+			font-size: 16px;
+			background-color: rgba(227, 225, 225, 0.479);
+
+		}
+	</style>
+</head>
+
+<body class="is-preload">
+	<div id="wrapper">
+		<div id="bg"></div>
+		<div id="overlay"></div>
+		<div id="main">
+
+			<!-- Header -->
+			<header id="header">
+				<h1>Flair Mail</h1>
+				<p>Be bold &nbsp;&bull;&nbsp; Be stylish &nbsp;&bull;&nbsp; Send with FlairMail!</p>
+				<nav>
+
+					<ul>
+						<button>
+							<a href="/account/login">Log in</a>
+						</button>
+						<button>
+							<a href="/register">Register</a>
+						</button>
+						<button>
+							<a href="/dashboard">Test</a>
+						</button>
+					</ul>
+
+				</nav>
+			</header>
+
+			<!-- Footer -->
+			<footer id="footer">
+
+			</footer>
+
+		</div>
+	</div>
+	<script>
+		window.onload = function () { document.body.classList.remove('is-preload'); }
+		window.ontouchmove = function () { return false; }
+		window.onorientationchange = function () { document.body.scrollTop = 0; }
+	</script>
+</body>
+
+</html>

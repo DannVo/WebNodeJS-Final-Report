@@ -1,0 +1,255 @@
+<link rel="stylesheet" type="text/css" href="/assets/css/detailemail.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/home.css" />
+
+
+<div>
+  <div class="email-app ">
+    <%- include('./layouts/nav-bar') %>
+    <main class="inbox py-4 px-4">
+      <!-- account icon -->
+      <div style="display: flex; justify-content: space-between">
+        <div class="mail-view d-none d-md-block px-3 rounded-2 bg-white">
+          <a class="btn btn-sm-secondary p-1 my-2 me-2" id="btn-back" href="#">
+            <i class="fa-solid fa-arrow-left" style="font-size: 22px; cursor: pointer;"></i>
+          </a>
+          <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+              <div class="btn-toolbar">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i
+                      class="mdi mdi-reply text-primary me-1"></i> Reply</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i
+                      class="mdi mdi-reply-all text-primary me-1"></i>Reply All</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i
+                      class="mdi mdi-share text-primary me-1"></i>Forward</button>
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i
+                      class="mdi mdi-attachment text-primary me-1"></i>Attach</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i
+                      class="mdi mdi-delete text-primary me-1"></i>Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-body">
+            <div class="sender-details px-2 py-3" style="border-bottom: 1px solid #e9e9e9; display:flex;">
+              <img class="img-sm rounded-circle me-3"
+                src="http://www.urbanui.com/dashflat/template/images/faces/face11.jpg" alt="">
+              <div class="details">
+                <p class="msg-subject fw-bold">
+                  <%= content.createdAt%>
+                </p>
+                <p class="sender-email">
+                  <%= account.fullName.fullName%>
+                  <a href="#"><span class="__cf_email__"
+                      data-cfemail="dab3aea9b7bfa9bba8bbb2e8ece29abdb7bbb3b6f4b9b5b7"><%= account.email%></span></a>
+                  &nbsp;<i class="mdi mdi-account-multiple-plus"></i>
+                </p>
+              </div>
+            </div>
+            <h5 style="margin-left: 10px; margin-top:10px;"><%= content.title%></h5>
+            <div class="message-content">
+              <p><%= content.text%></p>
+            </div>
+            <div class="attachments-sections">
+              <ul id="files-list">
+                //show files
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="setting"  style="display: flex; justify-content: right;">
+          
+          <div style="margin: 0px 8px;">
+            <a class="btn btn-sm-secondary" href="/setting-mail">
+              <i class="fas fa-gear" style="font-size: 22px; cursor: pointer"></i>
+            </a>
+          </div>
+          <div class="dropdown ">
+            
+            <a class="btn btn-black dropdown" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <img class="rounded-circle border border-3" id="avatar" src="<%= avatar%>" title="<%= email%>" alt="Avatar Flair Mail" width="40" height="40">
+              
+            </a>
+          
+            <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fa-regular fa-address-card"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="/account/logout"><i class="fas fa-arrow-right-from-bracket"></i> Log out</a></li>
+            </ul>
+          </div>
+        </div>
+  
+      
+      </div>
+    </main>
+    <!-- Modal compose email -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog d-flex justify-content-center" style="width: fit-content;">
+        <div class="modal-content " style="width: fit-content;">
+          <div class="modal-body" style="width: fit-content;">
+            <div class="email-app" style="width: 800px;">
+              <br>
+
+              <main>
+                <div class="flex-end" style="text-align: right;">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <br>
+                <p class="text-center">New Message</p>
+                <form>
+                  <div class="row mb-3">
+                    <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
+                    <div class="col-10 col-sm-11">
+                      <input type="email" class="form-control" id="to" placeholder="Type email">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="cc" class="col-2 col-sm-1 col-form-label">CC:</label>
+                    <div class="col-10 col-sm-11">
+                      <input type="email" class="form-control" id="cc" placeholder="Type email">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="bcc" class="col-2 col-sm-1 col-form-label">BCC:</label>
+                    <div class="col-10 col-sm-11">
+                      <input type="email" class="form-control" id="bcc" placeholder="Type email">
+                    </div>
+                  </div>
+                </form>
+                <div class="row">
+                  <div class="col-sm-11 ms-auto">
+                    <div class="toolbar" role="toolbar">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-bold"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-italic"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-underline"></span>
+                        </button>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-align-left"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-align-right"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-align-center"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-align-justify"></span>
+                        </button>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-indent"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-outdent"></span>
+                        </button>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-list-ul"></span>
+                        </button>
+                        <button type="button" class="btn btn-light">
+                          <span class="fa fa-list-ol"></span>
+                        </button>
+                      </div>
+                      <!-- <button type="button" class="btn btn-light">
+                      <span class="fa fa-trash-o"></span>
+                    </button> -->
+                      <button type="button" class="btn btn-light">
+                        <span class="fa fa-paperclip"></span>
+                      </button>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+                          <span class="fa fa-tags"></span>
+                          <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="#">add label <span class="badge badge-danger">
+                              Home</span></a>
+                          <a class="dropdown-item" href="#">add label <span class="badge badge-info"> Job</span></a>
+                          <a class="dropdown-item" href="#">add label <span class="badge badge-success">
+                              Clients</span></a>
+                          <a class="dropdown-item" href="#">add label <span class="badge badge-warning">
+                              News</span></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                      <textarea class="form-control" id="message" name="body" rows="12"
+                        placeholder="Click here to reply"></textarea>
+                    </div>
+                    <div class="form-group text-end">
+                      <button type="submit" class="btn btn-success">Send</button>
+                      <button type="submit" class="btn btn-light">Draft</button>
+                      <button type="submit" class="btn btn-danger">Discard</button>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<style>
+  li{
+    cursor: pointer;
+  }
+</style>
+<script>
+  $(document).ready(function(){
+    $('#btn-back').click(function(){
+      window.history.back();
+    })
+  })
+  window.onload = showFiles()
+  
+  function showFiles(){
+    var filesList = <%- JSON.stringify(files) %>;
+    console.log(filesList)
+    const filesUl = document.querySelector('#files-list')
+    filesUl.innerHTML = ''
+  
+    for(let file of filesList){
+      const fileItem = document.createElement('li')
+      fileItem.style.marginTop = "10px"
+      fileItem.style.backgroundColor = "#e7e8eb"
+      const body = `
+      <div class="thumb" style="display: flex;">
+        <div style="margin: auto 0; margin-right:20px;">
+          ${file.icon}
+
+        </div>
+        <div>
+          <strong><p class="file-name" style="margin:0;">${file.name}</p></strong>
+          <p class="file-size" style="margin:0;">${file.size}</p>
+        </div>
+      </div>
+      <div class="details mt-2">
+        <div class="buttons">
+          <button type="button" class="btn" data-mdb-ripple-color="dark" style="padding: 2px 8px; background-color: #fafafa"><a href="/dashboard/mail/content/files/view/${file.id}" target="_blank" class="view" style="text-decoration: none; color: black;">View</a></button>
+          <button type="button" class="btn" data-mdb-ripple-color="dark" style="padding: 2px 8px; background-color: black;"><a href="/dashboard/mail/content/files/download/${file.id}" target="_blank" class="download" style="text-decoration: none; color:white">Download</a><i class="fa fa-download" style="color:white;"></i></button>
+          
+          
+        </div>
+      </div>`
+      fileItem.innerHTML = body
+      filesUl.appendChild(fileItem)
+    }
+
+  }
+
+  
+</script>
