@@ -20,6 +20,8 @@ const UserAccount = new Schema({
     phoneNumber: {type: String, required: true},
     gender: { type: String, maxLength:255, default:''},
     avatar: {type: ObjectId, default:null, required:false},
+    blockList: [{ type: String, maxLength:255}],
+    idBlocked: [{ type: String, maxLength:255}],
     createAt: { type: Date, default: function () {
         const isoDate = new Date().toISOString()
         const formattedDate = isoDate.replace('T',' ').replace('Z',' ')

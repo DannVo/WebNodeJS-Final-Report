@@ -74,8 +74,11 @@ module.exports = () => {
     router.get('/mail/content/:id', jwtAuthentication, dashController.detail_mail)
     router.get('/mail/content/files/view/:id',jwtAuthentication, dashController.view_content_files)
     router.get('/mail/content/files/download/:id',jwtAuthentication, dashController.download_content_files)
-
+    
+    router.post('/account/block/:mail', jwtAuthentication, dashController.block_friend)
+    router.post('/account/unblock/:mail', jwtAuthentication, dashController.unblock_friend)
     router.post('/compose/email', jwtAuthentication, upload.array('sentFile',4), composeValidator, dashController.send_email)
     router.post('/send-email/draft/store', jwtAuthentication, upload.single('sentFile'), dashController.store_draft)
+
     return router
 }

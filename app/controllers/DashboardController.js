@@ -35,8 +35,11 @@ module.exports = () =>{
         };
         const mail_amount = await MailContent.find(mailReceiver).count() || 0
         const error = req.flash('error') || ''
+        const all_users = await Account.find({email:{$ne:email}}).select('-_id -user_id -password -phoneNumber')
+        const listUser = await Account.findOne({email:email}).select('-_id -user_id -password -phoneNumber')
+        console.log(listUser)
         
-        res.render('home',{email, activePage:"inbox", error,mail_amount, avatar})
+        res.render('home',{email, activePage:"inbox", error,mail_amount, avatar, allUsers: all_users, block:listUser.blockList})
     }
 
     function stared_index(req, res){
@@ -265,7 +268,29 @@ module.exports = () =>{
         let id = req.params.id
         await dowloadFileBucket(email, id, res)
     }
+
+    async function block_friend(req, res){
+        const email = req.session.user
+        const mailBlock = req.params.mail
+        //User1 chặn user2 thì blockList bên user1 và user2 đều có tên của đối phương
+        //block list của người dùng
+        const updateMailUser = await Account.findOneAndUpdate({email:email},{$push:{blockList: mailBlock}})
+        //blocklist của người bị block
+        const updateMailBlock = await Account.findOneAndUpdate({email:mailBlock},{$push:{blockList: email}})
+        console.log("Thành công rồi ",updateMailBlock)
+        res.redirect('home')
+    }
+    async function unblock_friend(req, res){
+        const email = req.session.user
+        const mailUnblock = req.params.mail
+        //User1 chặn user2 thì blockList bên user1 và user2 đều có tên của đối phương
+        const updateMailUser = await Account.findOneAndUpdate({email:email},{$pull:{blockList: mailUnblock}})
+        console.log("Thành công unblock ",updateMailUser)
+        res.redirect('home')
+    }
     
     return {index, stared_index, sent_index, draft_index, trash_index,
-        send_email, store_draft, detail_mail, view_content_files, download_content_files}
+        send_email, store_draft, detail_mail, view_content_files, download_content_files,
+        block_friend, unblock_friend
+    }
 }

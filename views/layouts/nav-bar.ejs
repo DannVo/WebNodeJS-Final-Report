@@ -44,52 +44,39 @@
                     <i class="fa fa-caret-down" style="margin: auto 0px;"></i>
                 </div>
             </div>
-            <ul class="collapse py-3 ps-3" id="collapseExample" style="background-color: rgba(255, 255, 255, 0.724);">
-                <li style="list-style-type: none; display: flex; justify-content: space-between; margin-bottom:10px;">
-                    <img class="rounded-circle border border-1" style="margin: auto 0px;" width="25" height="25" src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png" alt="" >
+
+            <ul class="collapse py-3 ps-0" id="collapseExample" style="background-color: rgba(255, 255, 255, 0.724);">
+                <% allUsers.forEach(user => {%>
+                     
+                <li class="user-mail ps-3 " style="list-style-type: none; display: flex; justify-content: space-between; margin-bottom:10px;">
                     <div style="margin: auto 0px;">
-                        <a class="" href="#" style="text-decoration: none; color: black">Action</a>
+                    <%if (user.gender === "female"){%>
+                        <img class="rounded-circle border border-1" style="margin: auto 0px;" width="25" height="25" src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png" alt="" >
+                    <%}else{%>
+                        <img class="rounded-circle border border-1" style="margin: auto 0px;" width="25" height="25" src="https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png" alt="" >
+
+                    <%}%>
+                    <%if(block.includes(user.email)){%>
+                        <a class="ms-1" href="#" style="text-decoration: none; color: red; font-size:12px;"><%= user.email%></a>
+                    <%}else{%>
+                        <a class="ms-1" href="#" style="text-decoration: none; color: black; font-size:12px;"><%= user.email%></a>
+                    <%}%>
                     </div>
                     <div class="dropend">
                         <i class="fa fa-ellipsis-vertical me-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="margin: auto 0px;"></i>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" style="color: red;"><i class="fa-solid fa-ban"></i> Block</a></li>
-                                <li><a class="dropdown-item" href="#" style="color: green"><i class="fa-regular fa-circle-check"></i> Unblock</a></li>
+                                <%if(block.includes(user.email)){%>
+                                    <li class="check" id="btnBlock" data-myid="<%=user.email%>"><p class="dropdown-item block" id="blockUser" style="color: red;"><i class="fa-solid fa-ban" ></i> Block</p></li>
+                                    <li id="btnUnblock" data-myid="<%=user.email%>"><p class="dropdown-item unblock" style="color: green"><i class="fa-regular fa-circle-check"></i> Unblock</p></li>
+                                <%}else{%>
+                                    <li id="btnBlock" data-myid="<%=user.email%>"><p class="dropdown-item block" id="blockUser" style="color: red;"><i class="fa-solid fa-ban" ></i> Block</p></li>
+                                    <li class="check" id="btnUnblock" data-myid="<%=user.email%>"><p class="dropdown-item unblock" style="color: green"><i class="fa-regular fa-circle-check"></i> Unblock</p></li>
+                                <%}%>
                             </ul>
                           
                     </div>
                 </li>
-                <li style="list-style-type: none; display: flex; justify-content: space-between; margin-bottom:10px;">
-                    <img class="rounded-circle border border-1" style="margin: auto 0px;" width="25" height="25" src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png" alt="" >
-                    <div style="margin: auto 0px;">
-                        <a class="" href="#" style="text-decoration: none; color: black">Action</a>
-                    </div>
-                    <div class="dropend">
-                        <i class="fa fa-ellipsis-vertical me-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="margin: auto 0px;"></i>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" style="color: red;"><i class="fa-solid fa-ban"></i> Block</a></li>
-                                <li class="check"><a class="dropdown-item" href="#" style="color: green"><i class="fa-regular fa-circle-check"></i> Unblock</a></li>
-                            </ul>
-                          
-                    </div>
-                </li>
-                <li style="list-style-type: none; display: flex; justify-content: space-between; margin-bottom:10px;">
-                    <img class="rounded-circle border border-1" style="margin: auto 0px;" width="25" height="25" src="https://www.pngkey.com/png/detail/72-729716_user-avatar-png-graphic-free-download-icon.png" alt="" >
-                    <div style="margin: auto 0px;">
-                        <a class="" href="#" style="text-decoration: none; color: black">Action</a>
-                    </div>
-                    <div class="dropend">
-                        <i class="fa fa-ellipsis-vertical me-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="margin: auto 0px;"></i>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" style="color: red;"><i class="fa-solid fa-ban"></i> Block</a></li>
-                                <li><a class="dropdown-item" href="#" style="color: green"><i class="fa-regular fa-circle-check"></i> Unblock</a></li>
-                            </ul>
-                          
-                    </div>
-                </li>
-                
-                
-                
+                <%})%>
             
             </ul>
         </li>
@@ -105,4 +92,40 @@
     .check {
         background-color: #23b4f7cf;
     }
+    .user-mail:hover{
+        background-color: rgba(128, 128, 128, 0.685);
+        color: white;
+    }
 </style>
+<script>
+    $('ul #btnBlock').click(e => {
+        const email = $(e.target).attr('data-myid')
+        console.log(email)
+        $.ajax({
+            type:'POST',
+            url:'/dashboard/account/block/' + email,
+            success: function(){
+                console.log("Đã thành công")
+            },
+            error: function(error){
+                console.log('Đã thất bại')
+            }
+        })
+
+    })
+    $('ul #btnUnblock').click(e => {
+        const email = $(e.target).attr('data-myid')
+        console.log(email)
+        $.ajax({
+            type:'POST',
+            url:'/dashboard/account/unblock/' + email,
+            success: function(){
+                console.log("Đã thành công")
+            },
+            error: function(error){
+                console.log('Đã thất bại')
+            }
+        })
+
+    })
+</script>

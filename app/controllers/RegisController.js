@@ -2,7 +2,7 @@ const Account = require('../models/UserAccount')
 const bcrypt = require('bcrypt')
 const {getAuth} = require('firebase/auth')
 const saltRounds = 10
-const auth = getAuth()
+
 
 module.exports = (firebase) => {
   function index(req, res) {
